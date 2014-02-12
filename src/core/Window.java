@@ -2,6 +2,7 @@ package core;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -14,8 +15,10 @@ public class Window extends JFrame {
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(new Dimension(width, height));
+		this.setResizable(false);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		this.setContentPane(new World());
 		this.setVisible(true);
-		
-		
 	}
 }

@@ -14,38 +14,47 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Bird extends JLabel{
+public class Bird {
 	
 	private int width = 45;
 	private int height = 31;
 	
-	String bird_path = "res/derpybird_small.png";
+	private int x = 45;
+	private int y = 200;
 	
-	private BufferedImage bird_img;
+	private int dy = 3;
+	
+	private String bird_path = "res/derpybird_small.png";
+	
+	private Image bird_img;
+	
 	
 	public Bird() {
 		
-		this.setVisible(true);
-		this.setPreferredSize(new Dimension(width, height));
-		this.setBackground(Color.BLUE);
-		
 		try {
-			bird_img = new BufferedImage(45,45,BufferedImage.TYPE_INT_ARGB);
+			
 			bird_img = ImageIO.read(new File(bird_path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		ImageIcon bird_icon = new ImageIcon(bird_img);
-		this.setIcon(bird_icon);
+	}
+	
+	public Image getBird() {
+		return bird_img;
+	}
+	
+	public void move() {
 		
-		
+		y += dy;
 	}
 
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
-	
+	public int getX() {return x;}
+	public int getY() {return y;}
+
 	
 	
 }
