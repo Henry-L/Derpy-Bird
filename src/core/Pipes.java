@@ -14,13 +14,15 @@ public class Pipes {
 	
 	private int height = (int) (900*0.75);
 	private int width = 90;
-	private int spaceApart = 65;
+	private int spaceApart = 125;
 	
-	private float y = 400;
+	private int y = 400;
 	
+	private int upY;
+	private int downY;
 	
 	private String pipe_up_path = "res/pipe_up.png";
-	private String pipe_down_path = "res/pipe_up.png";
+	private String pipe_down_path = "res/pipe_down.png";
 	
 	private Image pipe_up;
 	private Image pipe_down;
@@ -34,12 +36,16 @@ public class Pipes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 	
 	public Image getPipeUp() {return pipe_up;}
 	public Image getPipeDown() {return pipe_down;}
+	
+	public int getUpY() {return y + spaceApart;}
+	public int getDownY() {return y;}
+	public int getSpaceApart() {return spaceApart;}
+	
 	
 	public void move() {
 		

@@ -25,7 +25,10 @@ public class World extends JPanel implements ActionListener{
 	
 	private Timer timer;
 	private Bird bird;
-
+	private Pipes pipes;
+	
+	private int pipeDownLen;
+	private int pipeUpLen;
 	
 	public World() {
 		
@@ -35,6 +38,14 @@ public class World extends JPanel implements ActionListener{
 	
 		
 		bird = new Bird();
+		pipes = new Pipes();
+		
+		pipeDownLen = pipes.getPipeDown().getHeight(this);
+		pipeUpLen = pipes.getPipeUp().getHeight(this);
+		
+		
+		int len = pipes.getPipeDown().getHeight(this);
+		System.out.println(pipes.getDownY() - pipeDownLen);
 		
 		addKeyListener(new KeyAdapter() {
 			
@@ -56,6 +67,8 @@ public class World extends JPanel implements ActionListener{
         Graphics2D g2d = (Graphics2D)g;
         //g2d.rotate(Math.toRadians(10), (int)(bird.getX()), (int)(bird.getY()));
         g2d.drawImage(bird.getBird(), (int)(bird.getX()), (int)(bird.getY()), this);
+        g2d.drawImage(pipes.getPipeUp(), 300, pipes.getUpY(), this);
+        g2d.drawImage(pipes.getPipeDown(), 300, pipes.getDownY() - pipeDownLen, this);
         Toolkit.getDefaultToolkit().sync();
         g2d.dispose();
     }

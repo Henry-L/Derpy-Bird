@@ -9,6 +9,5 @@ public class main {
 		
 		Window w = new Window();
 		
-
 	}
 }
