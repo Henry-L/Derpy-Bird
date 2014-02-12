@@ -14,6 +14,10 @@ import java.awt.event.ActionListener;
 
 
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -29,7 +33,17 @@ public class World extends JPanel implements ActionListener{
 		this.setBackground(Color.BLUE);
 		this.setDoubleBuffered(true);
 	
+		
 		bird = new Bird();
+		
+		addKeyListener(new KeyAdapter() {
+			
+			public void keyPressed(KeyEvent e) {
+	        	if (e.getKeyChar() == ' ') {
+					bird.jump();
+				}
+	        }
+		});
 		
 		timer = new Timer(5, this);
 		timer.start();
@@ -40,8 +54,8 @@ public class World extends JPanel implements ActionListener{
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D)g;
-        g2d.drawImage(bird.getBird(), bird.getX(), bird.getY(), this);
-
+        //g2d.rotate(Math.toRadians(10), (int)(bird.getX()), (int)(bird.getY()));
+        g2d.drawImage(bird.getBird(), (int)(bird.getX()), (int)(bird.getY()), this);
         Toolkit.getDefaultToolkit().sync();
         g2d.dispose();
     }

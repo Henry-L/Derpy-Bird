@@ -19,10 +19,20 @@ public class Bird {
 	private int width = 45;
 	private int height = 31;
 	
-	private int x = 45;
-	private int y = 200;
+	private float x = 120;
+	private float y = 200;
 	
-	private int dy = 3;
+	private float fallingSpeed = 0f;
+	private float jumpingSpeed = 4f;
+	
+	private float dy = 0f;
+	
+	private float gravity = 0.025f;
+	//private float gravity = 1.025f;
+	private float antiGravity = -0.1f;
+	
+	private boolean isFalling;
+	
 	
 	private String bird_path = "res/derpybird_small.png";
 	
@@ -30,6 +40,8 @@ public class Bird {
 	
 	
 	public Bird() {
+		
+		isFalling = true;
 		
 		try {
 			
@@ -46,14 +58,33 @@ public class Bird {
 	}
 	
 	public void move() {
+	
 		
-		y += dy;
+		if (isFalling) {
+			dy = dy+gravity;
+			y += dy;
+		}
+		else {
+			y -= dy;
+			dy = dy+antiGravity;
+		}
+		if (dy < 0.01f) {
+			isFalling = true;
+			dy = 0.01f;
+		
+		}
+	}
+	
+	public void jump() {
+		isFalling = false;
+		dy = jumpingSpeed;
+		move();
 	}
 
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
-	public int getX() {return x;}
-	public int getY() {return y;}
+	public float getX() {return x;}
+	public float getY() {return y;}
 
 	
 	
