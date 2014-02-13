@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -15,6 +16,8 @@ public class Pipes {
 	private int height = (int) (900*0.75);
 	private int width = 90;
 	private int spaceApart = 125;
+	
+	private int randomSpread = 300;
 	
 	private int y = 400;
 	
@@ -26,6 +29,8 @@ public class Pipes {
 	
 	private Image pipe_up;
 	private Image pipe_down;
+	
+	private Random randomizer = new Random();
 	
 	public Pipes() {
 		try {
@@ -39,6 +44,22 @@ public class Pipes {
 
 	}
 	
+	
+	public void move() {
+		
+		if (y + randomSpread < height && y - randomSpread > 0) {
+			y = randomizer.nextInt(((y + randomSpread) - (y - randomSpread)) + 1) + y - randomSpread;
+		} 
+		else if (y + randomSpread > height) {
+			y = randomizer.nextInt(((y) - (y - randomSpread)) + 1) + y - randomSpread;
+		}
+		else {
+			y = randomizer.nextInt(((y + randomSpread) - 20) + 1) + 20;
+		}
+		
+	}
+	
+	
 	public Image getPipeUp() {return pipe_up;}
 	public Image getPipeDown() {return pipe_down;}
 	
@@ -46,10 +67,9 @@ public class Pipes {
 	public int getDownY() {return y;}
 	public int getSpaceApart() {return spaceApart;}
 	
+	public int getWidth() {return width;}
+	public int getHeight() {return height;}
 	
-	public void move() {
-		
-		
-	}
+	
 	
 }

@@ -16,10 +16,10 @@ import javax.swing.JPanel;
 
 public class Bird {
 	
-	private int width = 45;
+	private int width = 43;
 	private int height = 31;
 	
-	private float x = 120;
+	private int x = 120;
 	private float y = 200;
 	
 	private float fallingSpeed = 0f;
@@ -70,8 +70,12 @@ public class Bird {
 		}
 		if (dy < 0.01f) {
 			isFalling = true;
-			dy = 0.01f;
-		
+			dy = 0.02f;
+		}
+		if (y < 0) {
+			isFalling = true;
+			dy = 0.02f;
+			move();
 		}
 	}
 	
@@ -83,7 +87,7 @@ public class Bird {
 
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
-	public float getX() {return x;}
+	public int getX() {return x;}
 	public float getY() {return y;}
 
 	

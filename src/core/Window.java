@@ -18,7 +18,7 @@ public class Window extends JFrame {
 		this.setResizable(false);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-		this.setContentPane(new World());
+		this.setContentPane(new World(width, height));
 		this.setVisible(true);
 	}
 }
