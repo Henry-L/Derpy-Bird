@@ -16,7 +16,7 @@ public class Background {
 	public Background() {
 		
 		red = 0;
-		green = 225;
+		green = 255;
 		blue = 255;
 		
 		
@@ -31,6 +31,16 @@ public class Background {
 		} 
 		else {
 			blue -= shift;
+		}
+		background_color = new Color(red,green,blue);
+	}
+	
+	public void lighten() {
+		if (blue < 255) {
+			blue += shift;
+		} 
+		else {
+			green += shift;
 		}
 		background_color = new Color(red,green,blue);
 	}

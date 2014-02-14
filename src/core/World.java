@@ -65,6 +65,8 @@ public class World extends JPanel implements ActionListener{
 	
 	private Background background;
 	
+	private boolean darkening;
+	
 	public World(int width, int height) {
 		
 		background = new Background();
@@ -85,6 +87,8 @@ public class World extends JPanel implements ActionListener{
 		pipes.move();
 		pipes2 = new Pipes();
 		pipes2.move();
+		
+		darkening = true;
 		
 		System.out.println("Pipes width = " + pipes.getWidth());
 		
@@ -143,8 +147,17 @@ public class World extends JPanel implements ActionListener{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				background.darken();
-				
+				if (background.getColor().getBlue() == 0) {
+					darkening = false;
+				}
+				else if(background.getColor().getGreen() == 255) {
+					darkening = true;
+				}
+				if (darkening) {
+					background.darken();
+				} else {
+					background.lighten();
+				}
 			}
 			
 		});
@@ -226,12 +239,7 @@ public class World extends JPanel implements ActionListener{
 		
 		this.setBackground(background.getColor());
 		
-/*		if (score == 5) {
-			this.setBackground(Color.BLUE);
-		}
-		if (score == 10) {
-			this.setBackground(Color.BLACK);
-		}*/
+		
 		
 		if (bird.getX() == (px1+pipes.getWidth()+dx) || bird.getX() == (px2+pipes.getWidth()+dx)) {
 			/*if (background.getColor().getBlue() > 0) {

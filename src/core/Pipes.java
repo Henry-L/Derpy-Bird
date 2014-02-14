@@ -47,14 +47,18 @@ public class Pipes {
 	
 	public void move() {
 		
-		if (y + randomSpread < height && y - randomSpread > 0) {
+		
+		
+		if ((y + randomSpread < height - randomSpread) && (y - randomSpread > randomSpread)) {
 			y = randomizer.nextInt(((y + randomSpread) - (y - randomSpread)) + 1) + y - randomSpread;
 		} 
-		else if (y + randomSpread > height) {
-			y = randomizer.nextInt(((y) - (y - randomSpread)) + 1) + y - randomSpread;
+		else if ((y + randomSpread) > (height - randomSpread)) {
+			if (y > randomSpread) {
+				y = randomizer.nextInt(y - randomSpread + 1) + randomSpread;
+			}
 		}
 		else {
-			y = randomizer.nextInt(((y + randomSpread) - 20) + 1) + 20;
+			y = randomizer.nextInt(((height - randomSpread) - randomSpread) + 1) + randomSpread;
 		}
 		
 	}
