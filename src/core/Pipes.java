@@ -19,7 +19,7 @@ public class Pipes {
 	
 	private int randomSpread = 300;
 	
-	private int y = 400;
+	private int y = 200;
 	
 	private int upY;
 	private int downY;

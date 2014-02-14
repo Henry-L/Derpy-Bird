@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -32,7 +33,11 @@ public class World extends JPanel implements ActionListener{
 	
 	private int width, height;
 	
+	private int numGameOvers = 0;
+	
 	private Timer timer;
+	
+	private Timer colorTimer;
 	
 	private int score;
 	
@@ -58,10 +63,14 @@ public class World extends JPanel implements ActionListener{
 	private String highScore_path = "res/high_score.txt";
 	private String highScore;
 	
+	private Background background;
+	
 	public World(int width, int height) {
 		
+		background = new Background();
+		
 		this.setFocusable(true);
-		this.setBackground(Color.MAGENTA);
+		this.setBackground(background.getColor());
 		this.setDoubleBuffered(true);
 		
 		this.width = width;
@@ -77,6 +86,8 @@ public class World extends JPanel implements ActionListener{
 		pipes2 = new Pipes();
 		pipes2.move();
 		
+		System.out.println("Pipes width = " + pipes.getWidth());
+		
 		px1  = pipeStart;
 		
 		px2 = (int) (pipeStart + pipeStart - bird.getX()*2);
@@ -85,10 +96,12 @@ public class World extends JPanel implements ActionListener{
 		pipeUpLen = pipes.getPipeUp().getHeight(this);
 
 		try {
-			hsReader = new BufferedReader(new FileReader(highScore_path));
-			highScore = hsReader.readLine();
-			System.out.println(highScore);
-			hsReader.close();
+			if (new File(highScore_path) != null) {
+				hsReader = new BufferedReader(new FileReader(highScore_path));
+				highScore = hsReader.readLine();
+				hsReader.close();
+			} 
+			
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -105,8 +118,12 @@ public class World extends JPanel implements ActionListener{
 	        		if (!gameStarted) {
 	        			gameStarted = true;
 	        			timer.start();
+	        			colorTimer.start();
         			}
-	        		
+	        	
+				}
+	        	
+	        	if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 	        		if (gameOver) {
 	        			gameStarted = false;
 	        			gameOver = false;
@@ -114,14 +131,23 @@ public class World extends JPanel implements ActionListener{
 	        			repaint();
 	        		}
 	        		
-					bird.jump();
-				}
+	        	}
+	        	
+	        	bird.jump();
 	        }
 		});
 		
 		timer = new Timer(5, this);
 		
-		
+		colorTimer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				background.darken();
+				
+			}
+			
+		});
 	}
 	
     public void paint(Graphics g) {
@@ -150,6 +176,13 @@ public class World extends JPanel implements ActionListener{
         if (gameOver) {
         	g2d.drawString("Game Over!", 100, 100);
         	g2d.drawString("High Score:  " + highScore, 100, 120);
+        	g2d.drawString("Press Enter to Retry.", 100, 250);
+        	
+        	switch (numGameOvers) {
+        	
+        	case 10: 
+        		g2d.drawString("You still want to play??", 100, 200);
+        	}
         }
         
         g2d.dispose();
@@ -169,14 +202,18 @@ public class World extends JPanel implements ActionListener{
     	}
     	
     	
-    	if ((x > px1 && x < px1+pipes.getWidth()) || (x2 > px1 && x2 < px1+pipes.getWidth())) {
+    	if ((x > px1 && x < px1+pipes.getWidth() - 20) || (x2 > px1 && x2 < px1+pipes.getWidth() - 20)) {
     		if ((y < pipes.getDownY() || y > pipes.getUpY()) || (y2 < pipes.getDownY() || y2 > pipes.getUpY())) {
+    			System.out.println("Bird x = " + x);
+    			System.out.println("Pipe x + width = " + (px1+pipes.getWidth()));
     			return true;
     		}
     	}
     	
-    	if ((x > px2 && x < px2+pipes2.getWidth()) || (x2 > px2 && x2 < px2+pipes2.getWidth())) {
+    	if ((x > px2 && x < px2+pipes2.getWidth() - 20) || (x2 > px2 && x2 < px2+pipes2.getWidth() - 20)) {
     		if ((y < pipes2.getDownY() || y > pipes2.getUpY()) || (y2 < pipes2.getDownY() || y2 > pipes2.getUpY())) {
+    			System.out.println("Bird x = " + x);
+    			System.out.println("Pipe2 x + width = " + (px2+pipes.getWidth()));
     			return true;
     		}
     	}
@@ -187,13 +224,28 @@ public class World extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		this.setBackground(background.getColor());
+		
+/*		if (score == 5) {
+			this.setBackground(Color.BLUE);
+		}
+		if (score == 10) {
+			this.setBackground(Color.BLACK);
+		}*/
+		
 		if (bird.getX() == (px1+pipes.getWidth()+dx) || bird.getX() == (px2+pipes.getWidth()+dx)) {
+			/*if (background.getColor().getBlue() > 0) {
+				background.darken();
+				this.setBackground(background.getColor());
+			}*/
 			score++;
 		}
 		
 		if (checkCollision()) {
 			timer.stop();
+			colorTimer.stop();
 			gameOver = true;
+			numGameOvers++;
 			
 			if (score > Integer.parseInt(highScore)) {
 				highScore = ""+score;
@@ -235,6 +287,8 @@ public class World extends JPanel implements ActionListener{
 		px1  = pipeStart;
 		px2 = (int) (pipeStart + pipeStart - bird.getX()*2);
 		
+		background.resetColor();
+		this.setBackground(background.getColor());
 		score = 0;
 	}
 }

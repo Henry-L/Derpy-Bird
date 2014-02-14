@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class Bird {
 	
 	private int width = 43;
-	private int height = 31;
+	private int height = 31                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;
 	
 	private int x = 120;
 	private float y = 200;
@@ -27,9 +27,11 @@ public class Bird {
 	
 	private float dy = 0f;
 	
-	private float gravity = 0.025f;
-	//private float gravity = 1.025f;
-	private float antiGravity = -0.1f;
+	private float gravity = 0.03f;
+	//private float gravity = 0.025f;
+
+	private float antiGravity = -0.15f;
+	//private float antiGravity = -0.1f;
 	
 	private boolean isFalling;
 	
